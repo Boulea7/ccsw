@@ -1,0 +1,5 @@
+cc_switch.py
+*.bak
+*.corrupt*
+*.pyc
+__pycache__/
