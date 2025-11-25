@@ -4,7 +4,8 @@
 
 ## 特性
 - 预置 `zhipu`、`88code` 两个 provider，**不含密钥**，默认从环境变量读取令牌。
-- 支持自定义 provider（通过 `--token`/`--base-url` 等参数）。
+- 同步更新 Claude Code (`settings.json`) 与 Codex (`auth.json`，OpenAI 兼容)。
+- 支持自定义 provider（通过 `--token`/`--base-url`/`--openai-base-url` 等参数）。
 - 写入前自动备份 `settings.json`，并在 JSON 损坏时保留副本后重建。
 - 切换到 `88code` 时会自动清理智谱特有的超时/流量键。
 
@@ -21,6 +22,7 @@
    ```bash
    export ZHIPU_ANTHROPIC_AUTH_TOKEN="<your_zhipu_token>"
    export CODE88_ANTHROPIC_AUTH_TOKEN="<your_88code_token>"
+   export CODE88_OPENAI_API_KEY="<your_88code_token>"   # Codex 用，缺省与上同
    source ~/.zshrc  # 或 ~/.bashrc
    ccsw zhipu
    ccsw 88code
@@ -42,6 +44,7 @@ alias ccsw="python3 $HOME/ccsw/cc_switch_public.py"
 python3 cc_switch_public.py myvendor \
   --token "<token>" \
   --base-url "https://api.myvendor.com/anthropic" \
+  --openai-base-url "https://api.myvendor.com/openai/v1" \
   --timeout 30000 \
   --disable-nonessential-traffic
 ```
@@ -49,10 +52,15 @@ python3 cc_switch_public.py myvendor \
 - `--base-url` 可选：内置 provider 已有默认值，自定义 provider 建议显式提供。
 - `--timeout`：传入字符串或数字（毫秒）。
 - `--disable-nonessential-traffic`：写入 `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`。
+- `--openai-base-url` / `--codex-token`：同时写入 `~/.codex/auth.json`，便于 Codex 使用 OpenAI 兼容端点。
 
 ### 与常见 AI 编程 CLI 的关系
 - 本项目**只做配置切换**，不替代任何 CLI。你仍使用原有工具（Codex、Claude Code、其他 Anthropic 兼容 CLI），但在调用前用 `ccsw ...` 切到目标提供商即可。
 - 切换后重新打开/重连 Claude Code，或在新终端运行 Codex，即可使用最新的 `env`。
+
+## MCP 快速参考
+- 本机已有开源仓库 `awesome-mcp-servers`（同级目录下），列出大量可用 MCP 服务器，支持 Claude Code/Codex 等客户端。可直接浏览 `README-zh.md` 选择合适的 MCP 片段加入你的客户端配置。
+- 典型用法：在 Claude Code / Codex 的配置中添加对应 MCP 服务器的 command/url/args（详见该仓库的示例表）。本项目不直接修改 MCP 列表，但提供配置切换后即可复用同一套 MCP。
 
 ## 设计约定
 - 配置文件固定为 `~/.claude/settings.json`。
