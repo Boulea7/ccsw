@@ -8,35 +8,26 @@
 - 写入前自动备份 `settings.json`，并在 JSON 损坏时保留副本后重建。
 - 切换到 `88code` 时会自动清理智谱特有的超时/流量键。
 
-## 快速开始
-1. 克隆仓库并进入目录：
+## 快速开始（最简 3 步）
+1. 克隆并进入目录：
    ```bash
-   git clone https://github.com/Boulea7/ccsw.git
-   cd ccsw
+   git clone https://github.com/Boulea7/ccsw.git && cd ccsw
    ```
-2. 准备环境变量（示例）：
+2. 一键安装 alias（不写入密钥）：
+   ```bash
+   ./bootstrap.sh
+   ```
+3. 在当前终端导出令牌并使用：
    ```bash
    export ZHIPU_ANTHROPIC_AUTH_TOKEN="<your_zhipu_token>"
    export CODE88_ANTHROPIC_AUTH_TOKEN="<your_88code_token>"
-   ```
-3. 运行：
-   ```bash
-   python3 cc_switch_public.py zhipu   # 切到智谱
-   python3 cc_switch_public.py 88code  # 切到 88code
+   source ~/.zshrc  # 或 ~/.bashrc
+   ccsw zhipu
+   ccsw 88code
    ```
 
 ## 安装为全局别名
-在常用 shell（zsh/bash）里添加 alias：
-```bash
-# zsh 示例
-alias ccsw="python3 $HOME/ccsw/cc_switch_public.py"
-source ~/.zshrc  # 或 ~/.bashrc
-```
-以后直接：
-```bash
-ccsw zhipu
-ccsw 88code
-```
+推荐直接运行仓库提供的 `bootstrap.sh`（自动检测 zsh/bash）：\n```bash\n./bootstrap.sh\nsource ~/.zshrc  # 或 ~/.bashrc\n```\n如需手动：\n```bash\nalias ccsw=\"python3 $HOME/ccsw/cc_switch_public.py\"\n```
 
 ## 自定义 provider
 ```bash
@@ -50,6 +41,9 @@ python3 cc_switch_public.py myvendor \
 - `--base-url` 可选：内置 provider 已有默认值，自定义 provider 建议显式提供。
 - `--timeout`：传入字符串或数字（毫秒）。
 - `--disable-nonessential-traffic`：写入 `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`。
+
+### 与常见 AI 编程 CLI 配合
+- **Codex CLI**：在有 Python3 的环境直接用 `ccsw ...` 切换后即可调用 Codex（无需额外依赖）。\n- **Claude Code 本地 CLI**：本工具修改的 `~/.claude/settings.json` 即为 Claude Code 配置，切换后重新打开/重连即可生效。\n- **其他 MCP/LLM CLI**：只要遵循 Anthropic 兼容接口，传入 `--base-url` 与 `--token` 即可无缝接入。
 
 ## 设计约定
 - 配置文件固定为 `~/.claude/settings.json`。
