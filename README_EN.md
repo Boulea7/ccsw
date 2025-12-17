@@ -2,9 +2,10 @@
 
 # ccsw
 
-### Claude Code Provider Switcher
+### Claude Code Provider Switcher in Terminal
 
-A lightweight tool to switch between different AI providers for Claude Code and Codex
+A terminal-based tool to switch between different AI providers for Claude Code and Codex
+Perfect for headless environments like servers
 
 <br/>
 

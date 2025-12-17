@@ -2,9 +2,10 @@
 
 # ccsw
 
-### Claude Code Provider Switcher
+### Claude Code Provider Switcher in Terminal
 
-一个小工具，帮你在不同 AI 服务商之间一键切换配置
+一个终端工具，帮你在不同 AI 服务商之间一键切换配置
+完美适配服务器等无 UI 环境
 
 <br/>
 
