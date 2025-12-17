@@ -1,6 +1,38 @@
-# ccsw – Claude Code Provider Switcher
+<div align="center">
 
-一个小工具，帮你在不同 AI 服务商之间一键切换配置。不会发送请求、不托管密钥，只修改本地配置文件。
+# ccsw
+
+### Claude Code Provider Switcher
+
+一个小工具，帮你在不同 AI 服务商之间一键切换配置
+
+<br/>
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.6+-green.svg)](https://www.python.org/)
+[![GitHub Stars](https://img.shields.io/github/stars/Boulea7/ccsw?style=social)](https://github.com/Boulea7/ccsw/stargazers)
+
+<br/>
+
+[English](README_EN.md) | 简体中文
+
+</div>
+
+---
+
+## 📑 目录
+
+- [特性](#-特性)
+- [快速开始](#-快速开始)
+- [安装为全局别名](#-安装为全局别名)
+- [支持的 Provider](#-支持的-provider)
+- [切换流程](#-切换流程)
+- [自定义 Provider](#️-自定义-provider)
+- [与常见 AI 编程 CLI 的关系](#-与常见-ai-编程-cli-的关系)
+- [常见问题](#-常见问题)
+- [设计约定](#-设计约定)
+- [路线图](#️-路线图--todo)
+- [许可证](#-许可证)
 
 ---
 
@@ -243,14 +275,14 @@ Token is required. Provide --token or set ZHIPU_ANTHROPIC_AUTH_TOKEN
 
 ```mermaid
 graph TD
-    A[遇到 token 错误] --> B[运行: echo $ZHIPU_ANTHROPIC_AUTH_TOKEN]
+    A[遇到 token 错误] --> B[运行 echo 检查环境变量]
     B --> C{输出为空?}
-    C -->|是| D[导出环境变量:<br/>export ZHIPU_ANTHROPIC_AUTH_TOKEN='your_token']
+    C -->|是| D[导出环境变量]
     C -->|否| E[检查 token 格式是否正确]
     D --> F[重新运行 ccsw zhipu]
     E --> G{token 是否有引号?}
-    G -->|没有| H[添加引号：export VAR='token']
-    G -->|有| I[联系服务商确认 token 有效性]
+    G -->|没有| H[添加引号]
+    G -->|有| I[联系服务商确认有效性]
 ```
 
 **快速修复**：
@@ -273,12 +305,12 @@ ccsw zhipu --token "your_token_here"
 
 ```mermaid
 graph TD
-    A[ccsw 命令找不到] --> B[运行: source ~/.zshrc<br/>或 source ~/.bashrc]
+    A[ccsw 命令找不到] --> B[重新加载配置文件]
     B --> C{是否生效?}
-    C -->|否| D[检查 alias 是否正确添加:<br/>cat ~/.zshrc | grep ccsw]
+    C -->|否| D[检查 alias 是否正确添加]
     D --> E{找到 alias?}
     E -->|否| F[重新运行 bootstrap.sh]
-    E -->|是| G[检查路径是否正确:<br/>ls $HOME/ccsw/cc_switch_public.py]
+    E -->|是| G[检查路径是否正确]
     G --> H{文件存在?}
     H -->|否| I[检查仓库克隆位置]
     H -->|是| J[尝试重启终端]
@@ -339,7 +371,7 @@ graph TD
     E --> F[删除损坏的 settings.json]
     F --> G[重新运行 ccsw]
     D --> H{问题解决?}
-    H -->|否| I[提交 GitHub Issue:<br/>github.com/Boulea7/ccsw/issues]
+    H -->|否| I[提交 GitHub Issue]
     H -->|是| J[✅ 完成]
 ```
 
