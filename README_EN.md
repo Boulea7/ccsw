@@ -24,6 +24,7 @@ English | [简体中文](README.md)
 ## 📑 Table of Contents
 
 - [Features](#-features)
+- [Use Cases](#-use-cases)
 - [Quick Start](#-quick-start)
 - [Global Alias Installation](#-global-alias-installation)
 - [Supported Providers](#-supported-providers)
@@ -44,6 +45,77 @@ English | [简体中文](README.md)
 - 🎯 **Custom Provider**: Easily add new providers via command-line parameters
 - 💾 **Auto Backup**: Automatically backs up configurations before switching, even recovers from corrupted files
 - 🧹 **Smart Cleanup**: Automatically removes redundant configuration keys when switching providers
+
+---
+
+## 💼 Use Cases
+
+### 🖥️ Remote Server Development
+Connect to remote servers via SSH and quickly switch between different AI providers in headless environments without manually editing configuration files.
+
+**Example Scenario**:
+```bash
+ssh user@server
+ccsw 88code      # Switch to 88code provider
+claude code      # Start working with new config
+```
+
+---
+
+### 🐳 Docker Container Environment
+Manage AI tool configurations in containerized environments without GUI, perfect for automated development and testing deployments.
+
+**Example Scenario**:
+```dockerfile
+# Dockerfile
+RUN git clone https://github.com/Boulea7/ccsw.git && \
+    cd ccsw && \
+    ./bootstrap.sh && \
+    export CODE88_ANTHROPIC_AUTH_TOKEN=${API_TOKEN} && \
+    ccsw 88code
+```
+
+---
+
+### ☁️ Cloud Server Deployment
+Unified configuration management on AWS, Alibaba Cloud, Tencent Cloud and other cloud hosts, supporting batch deployment scripts.
+
+**Example Scenario**:
+```bash
+# Batch configure multiple servers
+ansible all -m shell -a "cd ~/ccsw && ccsw zhipu"
+```
+
+---
+
+### 🔧 CI/CD Pipelines
+Dynamically switch AI tool provider configurations in automated testing and deployment workflows.
+
+**Example Scenario** (GitHub Actions):
+```yaml
+- name: Switch AI Provider
+  run: |
+    cd ~/ccsw
+    ccsw 88code
+    claude code analyze --file src/main.py
+```
+
+---
+
+### 📦 Multi-Environment Configuration Management
+Use different AI providers for development, testing, and production environments. Switch with one command without memorizing complex configurations.
+
+**Example Scenario**:
+```bash
+# Development environment
+ccsw zhipu
+
+# Production environment
+ccsw 88code
+
+# Quick rollback
+cd ~/.claude && cp settings.json.bak-20250117-143052 settings.json
+```
 
 ---
 

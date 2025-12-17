@@ -24,6 +24,7 @@
 ## 📑 目录
 
 - [特性](#-特性)
+- [典型使用场景](#-典型使用场景)
 - [快速开始](#-快速开始)
 - [安装为全局别名](#-安装为全局别名)
 - [支持的 Provider](#-支持的-provider)
@@ -44,6 +45,77 @@
 - 🎯 **自定义 Provider**：通过命令行参数自由添加新服务商
 - 💾 **自动备份**：每次切换前自动备份配置，即使文件损坏也能安全恢复
 - 🧹 **智能清理**：切换 Provider 时自动清理旧配置的冗余键
+
+---
+
+## 💼 典型使用场景
+
+### 🖥️ 远程服务器开发
+通过 SSH 连接到远程服务器，在没有图形界面的环境下快速切换不同的 AI 提供商，无需手动编辑配置文件。
+
+**场景示例**：
+```bash
+ssh user@server
+ccsw 88code      # 切换到 88code 提供商
+claude code      # 使用新配置开始工作
+```
+
+---
+
+### 🐳 Docker 容器环境
+在容器内无 GUI 环境中管理 AI 工具配置，适合开发和测试环境的自动化部署。
+
+**场景示例**：
+```dockerfile
+# Dockerfile
+RUN git clone https://github.com/Boulea7/ccsw.git && \
+    cd ccsw && \
+    ./bootstrap.sh && \
+    export CODE88_ANTHROPIC_AUTH_TOKEN=${API_TOKEN} && \
+    ccsw 88code
+```
+
+---
+
+### ☁️ 云服务器部署
+AWS、阿里云、腾讯云等云主机上统一配置管理，支持批量部署脚本。
+
+**场景示例**：
+```bash
+# 批量配置多台服务器
+ansible all -m shell -a "cd ~/ccsw && ccsw zhipu"
+```
+
+---
+
+### 🔧 CI/CD 流水线
+在自动化测试和部署流程中动态切换 AI 工具的提供商配置。
+
+**场景示例**（GitHub Actions）：
+```yaml
+- name: Switch AI Provider
+  run: |
+    cd ~/ccsw
+    ccsw 88code
+    claude code analyze --file src/main.py
+```
+
+---
+
+### 📦 多环境配置管理
+开发、测试、生产环境使用不同的 AI 提供商，一键切换无需记忆复杂配置。
+
+**场景示例**：
+```bash
+# 开发环境
+ccsw zhipu
+
+# 生产环境
+ccsw 88code
+
+# 快速回退
+cd ~/.claude && cp settings.json.bak-20250117-143052 settings.json
+```
 
 ---
 
