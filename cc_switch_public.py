@@ -34,15 +34,22 @@ PROVIDERS = {
         },
     },
     "88code": {
-        "anthropic_base_url": "https://www.88code.org/api",
+        "anthropic_base_url": "https://88code.wu.ren/api",
         "anthropic_token_env": "CODE88_ANTHROPIC_AUTH_TOKEN",
-        "openai_base_url": "https://www.88code.org/openai/v1",
+        "openai_base_url": "https://88code.wu.ren/openai/v1",
         "openai_token_env": "CODE88_OPENAI_API_KEY",
         "extra": {},
     },
 }
 
 REMOVE_ON_88CODE = {"API_TIMEOUT_MS", "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"}
+
+# Aliases for provider names (shortcuts)
+ALIASES = {
+    "glm": "zhipu",
+    "occ": "openclaudecode",
+    "88": "88code",
+}
 
 
 def load_json(path: Path) -> Dict[str, Any]:
@@ -119,6 +126,11 @@ def save_json(path: Path, data: Dict[str, Any]) -> None:
         f.write("\n")
 
 
+def resolve_alias(profile: str) -> str:
+    """Resolve provider alias to canonical name."""
+    return ALIASES.get(profile, profile)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Switch Claude Code / Codex providers")
     parser.add_argument("profile", help="provider name (built-in or custom)")
@@ -182,14 +194,15 @@ def resolve_provider(profile: str, args: argparse.Namespace) -> Dict[str, Any]:
 
 def main() -> None:
     args = parse_args()
-    env_conf = resolve_provider(args.profile, args)
+    profile = resolve_alias(args.profile)
+    env_conf = resolve_provider(profile, args)
     ensure_parents()
 
     # Claude Code settings
     settings_data = load_json(SETTINGS_PATH)
     settings_backup = backup_file(SETTINGS_PATH)
     env_updates = build_claude_env(
-        profile=args.profile,
+        profile=profile,
         token=env_conf["token"],
         base_url=env_conf["base_url"],
         timeout=env_conf["timeout"],
@@ -199,7 +212,7 @@ def main() -> None:
     save_json(SETTINGS_PATH, updated_settings)
     if settings_backup:
         print(f"[claude] Backed up previous settings to {settings_backup}")
-    print(f"[claude] Switched Claude Code environment to: {args.profile}")
+    print(f"[claude] Switched Claude Code environment to: {profile}")
 
     # Codex auth.json (OpenAI compatible)
     if not args.skip_codex:
