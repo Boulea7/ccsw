@@ -217,7 +217,7 @@ ccsw --help
 
 **预期输出**：
 ```
-usage: cc_switch_public.py [-h] [--token TOKEN] [--base-url BASE_URL] ...
+usage: ccsw.py [-h] [--token TOKEN] [--base-url BASE_URL] ...
 Switch Claude Code / Codex providers
 ...
 ```
@@ -238,7 +238,7 @@ source ~/.zshrc  # 或 ~/.bashrc
 如需手动配置，在 `~/.zshrc`（或 `~/.bashrc`）中添加：
 
 ```bash
-alias ccsw="python3 $HOME/ccsw/cc_switch_public.py"
+alias ccsw="python3 $HOME/ccsw/ccsw.py"
 ```
 
 然后运行 `source ~/.zshrc` 重新加载配置。
@@ -290,7 +290,7 @@ graph TD
 除了内置的 `zhipu` 和 `88code`，你还可以添加自定义 Provider：
 
 ```bash
-python3 cc_switch_public.py myvendor \
+python3 ccsw.py myvendor \
   --token "<your_token>" \
   --base-url "https://api.myvendor.com/anthropic" \
   --openai-base-url "https://api.myvendor.com/openai/v1" \
@@ -399,7 +399,7 @@ source ~/.zshrc  # 或 source ~/.bashrc
 # 关闭当前终端，打开新终端
 
 # 方法 3: 手动运行脚本（不使用 alias）
-python3 ~/ccsw/cc_switch_public.py zhipu
+python3 ~/ccsw/ccsw.py zhipu
 ```
 
 ---
@@ -462,7 +462,7 @@ graph TD
   - 当文件损坏时另存为 `settings.json.corrupt-YYYYmmdd-HHMMSS`
 - **安全原则**：
   - 不把密钥写入仓库
-  - `.gitignore` 已忽略本地专用脚本（`cc_switch.py`）与备份文件
+  - `.gitignore` 已忽略本地密钥文件（`.env.local`）、备份文件与本地配置目录
 - **环境变量优先级**：
   1. 命令行参数 `--token`
   2. 内置 Provider 的环境变量（如 `ZHIPU_ANTHROPIC_AUTH_TOKEN`）

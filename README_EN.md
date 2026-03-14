@@ -217,7 +217,7 @@ ccsw --help
 
 **Expected Output**:
 ```
-usage: cc_switch_public.py [-h] [--token TOKEN] [--base-url BASE_URL] ...
+usage: ccsw.py [-h] [--token TOKEN] [--base-url BASE_URL] ...
 Switch Claude Code / Codex providers
 ...
 ```
@@ -238,7 +238,7 @@ source ~/.zshrc  # Or ~/.bashrc
 To configure manually, add to `~/.zshrc` (or `~/.bashrc`):
 
 ```bash
-alias ccsw="python3 $HOME/ccsw/cc_switch_public.py"
+alias ccsw="python3 $HOME/ccsw/ccsw.py"
 ```
 
 Then run `source ~/.zshrc` to reload the configuration.
@@ -290,7 +290,7 @@ graph TD
 Besides built-in `zhipu` and `88code`, you can add custom providers:
 
 ```bash
-python3 cc_switch_public.py myvendor \
+python3 ccsw.py myvendor \
   --token "<your_token>" \
   --base-url "https://api.myvendor.com/anthropic" \
   --openai-base-url "https://api.myvendor.com/openai/v1" \
@@ -399,7 +399,7 @@ source ~/.zshrc  # Or source ~/.bashrc
 # Close current terminal, open new one
 
 # Method 3: Run script manually (without alias)
-python3 ~/ccsw/cc_switch_public.py zhipu
+python3 ~/ccsw/ccsw.py zhipu
 ```
 
 ---
@@ -462,7 +462,7 @@ graph TD
   - Save as `settings.json.corrupt-YYYYmmdd-HHMMSS` when file is corrupted
 - **Security Principles**:
   - No secrets in repository
-  - `.gitignore` excludes local scripts (`cc_switch.py`) and backup files
+  - `.gitignore` excludes local secret files (`.env.local`), backup files, and local config directories
 - **Environment Variable Priority**:
   1. CLI parameter `--token`
   2. Built-in provider env vars (e.g., `ZHIPU_ANTHROPIC_AUTH_TOKEN`)
